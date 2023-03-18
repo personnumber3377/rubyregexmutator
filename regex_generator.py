@@ -82,7 +82,7 @@ alphabet = list(string.ascii_letters)
 
 START_SPECIAL_CHARS = [".", "*", "+", "?", "\\"]  #     \     is a special character which escapes the next character, so we technically can do \[ and it will match the "[" character.
 
-special_chars_no_slash = [".", "*", "+", "?"]
+special_chars_no_slash = [".", "*", "+", "?", "^", "|", "-", "$"]
 
 chars_no_slash = special_chars_no_slash + alphabet
 
@@ -143,9 +143,9 @@ def curly_brace_expr(length):
 		# generate random expr_type
 		
 		expr_type = random.randrange(1,4)
-		print("expr_type : "+str(expr_type))
+		#print("expr_type : "+str(expr_type))
 
-	print("Passed "+str(length)+" as length.")
+	#print("Passed "+str(length)+" as length.")
 
 
 	return_string = "{"
@@ -153,7 +153,7 @@ def curly_brace_expr(length):
 	length -= 1 # {
 
 
-	print("Length before if expressions: "+str(length))
+	#print("Length before if expressions: "+str(length))
 
 	if expr_type == 1: # {a}
 		length -= 1
@@ -163,12 +163,12 @@ def curly_brace_expr(length):
 	elif expr_type == 2: # {a,}
 
 
-		print("Length shitooooooofffff: "+str(length))
+		#print("Length shitooooooofffff: "+str(length))
 
 		length -= 2
 
 
-		print("Length shitooooooofffff44444444444: "+str(length))
+		#print("Length shitooooooofffff44444444444: "+str(length))
 		#expression = "{}".format(random.randrange(10**length))
 		expression = "{"+str(random.randrange(10**max((length-1),0),10**(length)))+",}"
 
@@ -178,7 +178,7 @@ def curly_brace_expr(length):
 
 	elif expr_type == 3: # {a,b}
 
-		print("length: "+str(length))
+		#print("length: "+str(length))
 
 		length -= 2
 		#integer1 = random.randrange(min(10**(length-1),0),10**(length)) # length-1 , because we also need the other number to be atleast one char in length
@@ -186,7 +186,7 @@ def curly_brace_expr(length):
 
 		length -= len(str(integer1))
 
-		print("another length: "+str(length))
+		#print("another length: "+str(length))
 
 		#integer2 = random.randrange(min(10**(length-1),0),10**(length))
 
@@ -243,18 +243,18 @@ def simple_expr(length, poopoo=False):
 		string += random.choice(alphabet)
 
 		length -= 1
-	print("Length before while loop: "+str(length))
+	#print("Length before while loop: "+str(length))
 
 	while length > 0:
 		
-		if poopoo:
-			print("Current length in loop: "+str(length))
+		#if poopoo:
+		#	print("Current length in loop: "+str(length))
 
-		if len(string) != 10 - length and poopoo:
-			print("ewwweeeeeeeeeee")
-			print(string)
-			print("Length : "+str(length))
-			exit(1)
+		#if len(string) != 10 - length and poopoo:
+		#	print("ewwweeeeeeeeeee")
+		#	print(string)
+		#	print("Length : "+str(length))
+		#	exit(1)
 
 		
 
@@ -287,11 +287,11 @@ def simple_expr(length, poopoo=False):
 				length -= 1
 				continue
 		else:
-			if poopoo:
-				print("Subexpr")
+			#if poopoo:
+				#print("Subexpr")
 			if length < 2:
-				print("gregregrgr")
-				print(length)
+				#print("gregregrgr")
+				#print(length)
 				# can not create subexpression when length is less than two (the "(" and ")" characters take up the two characters.) so just create normal chars
 
 				if length == 0:
@@ -321,6 +321,7 @@ def simple_expr(length, poopoo=False):
 
 
 					#random_length = random.randrange(2,length+1)
+					'''
 					shit_len = len(string)
 
 					
@@ -335,10 +336,10 @@ def simple_expr(length, poopoo=False):
 						print("Calling simple_expr with length: "+str(length))
 						print("String previously: "+str(string))
 						print("length previously : "+str(length))
+					'''
 
-
-					print("String before: "+str(string))
-					print("Length before: "+str(length))
+					#print("String before: "+str(string))
+					#print("Length before: "+str(length))
 					old_len = len(string)
 					#string += "["
 					#string += simple_expr(random_length)
@@ -346,19 +347,20 @@ def simple_expr(length, poopoo=False):
 					#string += "]"
 
 					random_length = random.randrange(2,length+1)
-					print("random_length: "+str(random_length))
+					#print("random_length: "+str(random_length))
 
 					length -= 2
 					random_length -= 2
-					print("Calling simple_expr with length: "+str(length))
+					#print("Calling simple_expr with length: "+str(length))
 					new_string = "["+str(simple_expr(random_length))+"]"
 					string += new_string
 					length -= (len(new_string)-2)
 
 
-					print("String after: "+str(string))
-					print("Length after:"+str(length))
+					#print("String after: "+str(string))
+					#print("Length after:"+str(length))
 
+					'''
 					if poopoo:
 						print("111111111111111111111111111111111111111111111111111111111111111111111111")
 						print("After shit: ")
@@ -366,10 +368,15 @@ def simple_expr(length, poopoo=False):
 						print("string : "+str(string))
 						print("length : "+str(length))
 
+					'''
 
-					print("Length after: "+str(length))
+
+
+					#print("Length after: "+str(length))
 
 					#length -= (len(string) - shit_len)
+
+					'''
 					if poopoo:
 
 						if len(string) - shit_len != len(new_string):
@@ -382,6 +389,8 @@ def simple_expr(length, poopoo=False):
 
 
 							exit(1)
+					
+					'''
 
 					#length -= random_length
 					continue
@@ -396,22 +405,22 @@ def simple_expr(length, poopoo=False):
 
 					random_length = random.randrange(2,length+1)
 
-					shit_len = len(string)
+					#shit_len = len(string)
 
 					string += curly_brace_expr(random_length)
 					
 
-					if len(string) - shit_len != random_length:
-						print("errreeeeee")
-						print("feroifjjnrlkgnrkljergre")
-						exit(1)
+					#if len(string) - shit_len != random_length:
+					#	print("errreeeeee")
+					#	print("feroifjjnrlkgnrkljergre")
+					#	exit(1)
 
 					length -= random_length
 					continue
 
 				elif subexpr_type == "normal_brace":
 					
-					print("Original length thing : "+str(length))
+					#print("Original length thing : "+str(length))
 					if length < 2:
 						print("Error stuff.")
 						exit(1)
@@ -425,7 +434,7 @@ def simple_expr(length, poopoo=False):
 					if length == 1:
 						random_length = 2
 					else:
-						print("Length  ffffffffffffffff: "+str(length))
+						#fprint("Length  ffffffffffffffff: "+str(length))
 						random_length = random.randrange(2,length+1)
 					#length -= 2
 
@@ -444,11 +453,11 @@ def simple_expr(length, poopoo=False):
 
 
 					random_length = random.randrange(2,length+1)
-					print("random_length: "+str(random_length))
+					#print("random_length: "+str(random_length))
 
 					length -= 2
 					random_length -= 2
-					print("Calling simple_expr with length: "+str(length))
+					#print("Calling simple_expr with length: "+str(length))
 					new_string = "("+str(simple_expr(random_length))+")"
 					string += new_string
 					length -= (len(new_string)-2)
@@ -499,7 +508,57 @@ HOW_MANY_TESTS = 10000
 
 TEST_LEN = 10
 
+
+import sys
+
+
+
 if __name__=="__main__":
+
+
+	#stdout = False
+	out_dir = False
+
+	if len(sys.argv) == 2:
+
+		out_dir = sys.argv[1]
+	if len(sys.argv) > 2:
+		print("Error. Too many arguments.")
+		exit(1)
+
+
+	HOW_MANY = 10000
+
+	if out_dir:
+		if out_dir[-1] != "/":
+			out_dir = out_dir + "/"
+
+
+
+	MAX_LEN=50
+	MIN_LEN=4
+
+
+	status_message = 10000
+
+	for i in range(HOW_MANY):
+
+		out_string = generate_expr(random.randrange(MIN_LEN, MAX_LEN-1))
+
+		if out_dir:
+			fh = open(out_dir+str(i), "wb")
+			fh.write(bytes(out_string, encoding="ascii"))
+			fh.close()
+		if not (i%status_message):
+			# show status message
+			print("How many have been generated: "+str(i))
+
+
+
+
+
+
+	'''
 
 	for _ in range(HOW_MANY_TESTS):
 		print("===============NEW LOOP===============")
@@ -511,6 +570,10 @@ if __name__=="__main__":
 			print("Generated string: "+str(string))
 			print("Length: "+str(len(string)))
 			exit(1)
+
+	'''
+
+	
 
 	print("[+] Success!")
 	exit(0)

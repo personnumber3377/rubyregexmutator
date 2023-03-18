@@ -94,7 +94,7 @@ $	Match the end of a line
 '''
 
 import random
-
+from regex_generator import *
 
 def init(seed):
 	random.seed(seed)
@@ -103,8 +103,82 @@ def init(seed):
 def deinit():
 	pass
 
+TRIM_CHANCE = 0.5
 
 def fuzz(buf, add_buf, max_size):
+    
+    # basically the plan is to just get a random place in the string and place a randomly generated regex there:
+
+    # out_string = generate_expr(random.randrange(MIN_LEN, MAX_LEN-1))
+
+    max_size = 110
+
+    max_add_size = max_size-len(buf)
+    replace_mode = random.random() < 0.3  # replace mode chance is 30 percent
+    
+
+
+    if max_add_size <= 0:
+        replace_mode = True
+    if not replace_mode:
+
+        add_string = generate_expr(random.randrange(0, max_add_size))
+
+        random_index = random.randrange(0,len(buf))
+        
+        add_string = bytes(add_string, encoding="utf-8")
+
+        final_buf = buf[:random_index]+add_string+buf[random_index+1:]
+        if len(final_buf) == 0:
+            return b"a"
+        return final_buf
+    else:
+        # replace mode:
+
+        random_index = random.randrange(0,len(buf))
+
+        # cut the string at random_index and then take out x chars and replace those.
+
+        max_replace_len = len(buf)- random_index
+
+        replace_length = random.randrange(0,max_replace_len)
+
+        replacement_string = generate_expr(replace_length)
+
+
+        replacement_string = bytes(replacement_string, encoding="utf-8")
+        #print("Add string: "+str(replacement_string))
+
+        # this part is a trim thing
+
+        num_of_trim_bytes = 0
+        if random.random() < TRIM_CHANCE:
+
+            #print("len(buf) == "+str(len(buf)))
+            #print("random_index :_ "+str(random_index))
+            #print("len(replacement_string) == "+str(len(replacement_string)))
+
+            num_of_trim_bytes = random.randrange(len(buf)-random_index-len(replacement_string))
+
+
+        final_buf = buf[:random_index]+replacement_string+buf[random_index+num_of_trim_bytes+replace_length:]
+        if len(final_buf) == 0:
+            return b"a"
+        return final_buf
+    return buf
+
+
+if __name__=="__main__":
+
+
+    original_buf = bytes('abcdefg', encoding="utf-8")
+    length_thing = len("abcdefg")
+
+    for _ in range(1000):
+
+        string = fuzz(original_buf, None, length_thing)
+        print(string)
+
 
 
 
