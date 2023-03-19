@@ -258,7 +258,7 @@ def simple_expr(length, poopoo=False):
 
 		
 
-		if random.random() > 1: # not a subexpr
+		if random.random() > SUBEXPR_CHANCE: # not a subexpr
 
 			if random.random() < SPECIAL_CHAR_CHANCE:
 				#print(special_chars_no_slash)

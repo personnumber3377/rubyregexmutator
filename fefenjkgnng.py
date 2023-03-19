@@ -95,7 +95,6 @@ $	Match the end of a line
 
 import random
 from regex_generator import *
-import string
 
 def init(seed):
 	random.seed(seed)
@@ -105,61 +104,6 @@ def deinit():
 	pass
 
 TRIM_CHANCE = 0.5
-
-TWEAK_CHANCE = 0.2
-
-TWEAK_PER_CHARACTER = 0.10
-
-
-subexpr_things = ["[", "]", "(", ")", "{", "}"]
-
-all_allowed_chars = [".", "*", "+", "?", "^", "|", "-", "$", "\\"] + list(string.ascii_letters) + subexpr_things
-
-
-
-
-
-
-def tweak(buffer):
-
-    # basically replace some characters with another and add some random characters and delete random characters
-
-    for counter in range(len(buffer)):
-        
-        if random.random() < TWEAK_PER_CHARACTER:
-            
-            tweak_type = random.randrange(1,4)
-
-            if tweak_type == 1:  # replace
-
-                # can not access bytearray by index so we have to do this shit instead :)
-
-
-                # thing[:3]+b"A"+thing[4:]   
-
-                buffer = buffer[:counter]+bytes(random.choice(all_allowed_chars), encoding="utf-8")+buffer[counter+1:]  # +1 because we want to replace char
-
-            if tweak_type == 2: # add
-
-                buffer = buffer[:counter]+bytes(random.choice(all_allowed_chars), encoding="utf-8")+buffer[counter:]
-
-            if tweak_type == 3: # delete
-
-                buffer = buffer[:counter]+buffer[counter+1:]
-
-
-            
-
-    if len(buffer) == 0:  # this is here, because the buffer has to be atleast one character long. Deleting random characters from a short buffer may cause the buffer to be "" .
-        buffer = bytes("a", encoding="utf-8")
-
-    return buffer
-
-
-
-
-
-
 
 def fuzz(buf, add_buf, max_size):
     
@@ -172,11 +116,6 @@ def fuzz(buf, add_buf, max_size):
     max_add_size = max_size-len(buf)
     replace_mode = random.random() < 0.3  # replace mode chance is 30 percent
     
-
-    if random.random() < TWEAK_CHANCE:
-
-        return tweak(buf)
-
 
 
     if max_add_size <= 0:
